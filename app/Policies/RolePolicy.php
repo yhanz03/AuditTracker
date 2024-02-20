@@ -13,7 +13,10 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole('superadmin');
+        if ($user->hasRole(['Super Admin', 'Admin'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -21,7 +24,10 @@ class RolePolicy
      */
     public function view(User $user, Role $role): bool
     {
-        return $user->hasRole('superadmin');
+        if ($user->hasRole(['Super Admin', 'Admin'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -29,7 +35,10 @@ class RolePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole('superadmin');
+        if ($user->hasRole(['Super Admin', 'Admin'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -37,7 +46,10 @@ class RolePolicy
      */
     public function update(User $user, Role $role): bool
     {
-        return $user->hasRole('superadmin');
+        if ($user->hasRole(['Super Admin', 'Admin'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -45,22 +57,25 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
-        return $user->hasRole('superadmin');
+        if ($user->hasRole(['Super Admin'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Role $role): bool
-    {
-        return $user->hasRole('superadmin');
-    }
+    // public function restore(User $user, Role $role): bool
+    // {
+    //     //
+    // }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Role $role): bool
-    {
-        return $user->hasRole('superadmin');
-    }
+    // public function forceDelete(User $user, Role $role): bool
+    // {
+    //     //
+    // }
 }

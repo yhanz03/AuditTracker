@@ -2,18 +2,18 @@
 
 namespace App\Policies;
 
-use App\Models\Permission;
+use App\Models\Audit;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class PermissionPolicy
+class AuditPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole(['Super Admin', 'Admin'])) {
+        if ($user->hasRole(['Super Admin', 'Admin', 'Auditor'])) {
             return true;
         }
         return false;
@@ -22,7 +22,7 @@ class PermissionPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Permission $permission): bool
+    public function view(User $user, Audit $audit): bool
     {
         if ($user->hasRole(['Super Admin', 'Admin'])) {
             return true;
@@ -35,7 +35,7 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        if ($user->hasRole(['Super Admin', 'Admin'])) {
+        if ($user->hasRole(['Super Admin', 'Admin', 'Auditor'])) {
             return true;
         }
         return false;
@@ -44,9 +44,9 @@ class PermissionPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Permission $permission): bool
+    public function update(User $user, Audit $audit): bool
     {
-        if ($user->hasRole(['Super Admin', 'Admin'])) {
+        if ($user->hasRole(['Super Admin', 'Auditor', 'Auditor'])) {
             return true;
         }
         return false;
@@ -55,9 +55,9 @@ class PermissionPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Permission $permission): bool
+    public function delete(User $user, Audit $audit): bool
     {
-        if ($user->hasRole(['Super Admin'])) {
+        if ($user->hasRole(['Super Admin', 'Auditor'])) {
             return true;
         }
         return false;
@@ -66,7 +66,7 @@ class PermissionPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    // public function restore(User $user, Permission $permission): bool
+    // public function restore(User $user, Audit $audit): bool
     // {
     //     //
     // }
@@ -74,8 +74,8 @@ class PermissionPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    //     public function forceDelete(User $user, Permission $permission): bool
-    //     {
-    //         //
-    //     }
+    // public function forceDelete(User $user, Audit $audit): bool
+    // {
+    //     //
+    // }
 }
