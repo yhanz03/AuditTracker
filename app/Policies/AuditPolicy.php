@@ -5,15 +5,17 @@ namespace App\Policies;
 use App\Models\Audit;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use id;
 
 class AuditPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, $id): bool
     {
-        if ($user->hasRole(['Super Admin', 'Admin', 'Auditor'])) {
+        $audit = Audit::find($id);
+        if ($user->hasPermissionTo('View Audit') && $user->id === $audit->user_id) {
             return true;
         }
         return false;
@@ -24,7 +26,7 @@ class AuditPolicy
      */
     public function view(User $user, Audit $audit): bool
     {
-        if ($user->hasRole(['Super Admin', 'Admin'])) {
+        if ($user->hasPermissionTo('View Audit')) {
             return true;
         }
         return false;
@@ -35,7 +37,7 @@ class AuditPolicy
      */
     public function create(User $user): bool
     {
-        if ($user->hasRole(['Super Admin', 'Admin', 'Auditor'])) {
+        if ($user->hasPermissionTo('Add Audit')) {
             return true;
         }
         return false;
@@ -46,7 +48,7 @@ class AuditPolicy
      */
     public function update(User $user, Audit $audit): bool
     {
-        if ($user->hasRole(['Super Admin', 'Auditor', 'Auditor'])) {
+        if ($user->hasPermissionTo('Edit Audit')) {
             return true;
         }
         return false;
@@ -57,7 +59,7 @@ class AuditPolicy
      */
     public function delete(User $user, Audit $audit): bool
     {
-        if ($user->hasRole(['Super Admin', 'Auditor'])) {
+        if ($user->hasPermissionTo('Delete Audit')) {
             return true;
         }
         return false;
